@@ -73,6 +73,15 @@ def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
     return kk_dict
 
 
+def show_life(life_num: int, screen: pg.Surface) -> None:
+    kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
+    screen.blit(kk_img, [0, 0])
+    fonto = pg.font.Font(None, 80)
+    txt = fonto.render(f" × {life_num}", True, (255, 255, 255))
+    screen.blit(txt, [30, 0])
+
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -101,15 +110,24 @@ def main():
     }
     bb_imgs, bb_accs = init_bb_imgs()
     kk_imgs = get_kk_imgs()
+    life = 3
+    alive = True
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-        if kk_rct.colliderect(bb_rct):
-            print("ゲームオーバー")
-            gameover(screen)
-            return
+        if kk_rct.colliderect(bb_rct) and alive:
+            alive = False
+            life -= 1
+            if life == -1:
+                print("ゲームオーバー")
+                gameover(screen)
+                return
+        elif not kk_rct.colliderect(bb_rct):
+            alive = True
         screen.blit(bg_img, [0, 0]) 
+
+        show_life(life, screen)
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
