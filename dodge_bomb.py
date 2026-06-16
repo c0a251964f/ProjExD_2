@@ -24,6 +24,11 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
 
 
 def gameover(screen: pg.Surface) -> None:
+    """
+    引数：Screen
+    戻り値：なし
+    ゲームオーバー画面描写
+    """
     black = pg.Surface((WIDTH, HEIGHT))
     pg.draw.rect(black, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
     black.set_alpha(180)
@@ -46,6 +51,11 @@ def gameover(screen: pg.Surface) -> None:
 
 
 def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
+    """
+    引数：なし
+    戻り値：タプル（リスト（爆弾の画像）, リスト（爆弾の速度））
+    爆弾の大きさと速度を変えるためのタプルを出力   
+    """
     bb_imgs = []
     for r in range(1, 11):
         bb_img = pg.Surface((20*r, 20*r))
@@ -56,7 +66,12 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     return bb_imgs, bb_accs
 
 
-def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
+def get_kk_imgs() -> dict[tuple[int, int]: pg.Surface]:
+    """
+    引数：なし
+    戻り値：辞書（タプル（x速度, y速度）: 向きを変えたｺｳｶﾄﾝの画像）
+    進む方向ごとにｺｳｶﾄﾝの向きを変えるための辞書を出力
+    """
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     kk_img_flip = pg.transform.flip(kk_img, True, False)
     kk_dict = {
@@ -74,6 +89,11 @@ def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
 
 
 def show_life(life_num: int, screen: pg.Surface) -> None:
+    """
+    引数：int(残機), Screen
+    戻り値：なし
+    画面に残機を出力
+    """
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     screen.blit(kk_img, [0, 0])
     fonto = pg.font.Font(None, 80)
