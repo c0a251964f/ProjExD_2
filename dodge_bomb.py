@@ -32,11 +32,15 @@ def gameover(screen: pg.Surface) -> None:
     black = pg.Surface((WIDTH, HEIGHT))
     pg.draw.rect(black, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
     black.set_alpha(180)
+
+    #文字実装
     fonto = pg.font.Font(None, 80)
     txt = fonto.render("Game Over", True, (255, 255, 255))
     txt_rct = txt.get_rect()
     txt_rct.center = WIDTH // 2, HEIGHT // 2
     black.blit(txt, txt_rct)
+
+    # ｺｳｶﾄﾝ実装
     kk_img_l = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 0.9)
     kk_img_r = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 0.9) 
     kk_rct_l = kk_img_l.get_rect()
@@ -45,6 +49,8 @@ def gameover(screen: pg.Surface) -> None:
     kk_rct_r.center = WIDTH // 2 + 200, HEIGHT // 2
     black.blit(kk_img_l, kk_rct_l)
     black.blit(kk_img_r, kk_rct_r)
+
+    #画面描写
     screen.blit(black, [0, 0])
     pg.display.update()
     time.sleep(5)
@@ -57,12 +63,12 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     爆弾の大きさと速度を変えるためのタプルを出力   
     """
     bb_imgs = []
-    for r in range(1, 11):
+    for r in range(1, 11): #大きさが異なる爆弾のリストを作成
         bb_img = pg.Surface((20*r, 20*r))
         pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
         bb_img.set_colorkey((0, 0, 0))
         bb_imgs.append(bb_img)
-    bb_accs = [a for a in range(1, 11)]
+    bb_accs = [a for a in range(1, 11)] #爆弾の速度のリストを作成
     return bb_imgs, bb_accs
 
 
@@ -75,15 +81,15 @@ def get_kk_imgs() -> dict[tuple[int, int]: pg.Surface]:
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     kk_img_flip = pg.transform.flip(kk_img, True, False)
     kk_dict = {
-        ( 0, 0): pg.transform.rotozoom(kk_img_flip, 0, 0.9),
-        ( 0,-5): pg.transform.rotozoom(kk_img_flip, 90, 0.9),
-        (+5,-5): pg.transform.rotozoom(kk_img_flip, 45, 0.9),
-        (+5, 0): pg.transform.rotozoom(kk_img_flip, 0, 0.9),
-        (+5, 5): pg.transform.rotozoom(kk_img_flip, -45, 0.9),
-        ( 0,+5): pg.transform.rotozoom(kk_img_flip, -90, 0.9),
-        (-5,-5): pg.transform.rotozoom(kk_img, -45, 0.9),
-        (-5, 0): pg.transform.rotozoom(kk_img, 0, 0.9),
-        (-5,+5): pg.transform.rotozoom(kk_img, 45, 0.9),
+        ( 0, 0): pg.transform.rotozoom(kk_img_flip, 0, 0.9), #何も押していない時
+        ( 0,-5): pg.transform.rotozoom(kk_img_flip, 90, 0.9), #上
+        (+5,-5): pg.transform.rotozoom(kk_img_flip, 45, 0.9), #右上
+        (+5, 0): pg.transform.rotozoom(kk_img_flip, 0, 0.9), #右
+        (+5, 5): pg.transform.rotozoom(kk_img_flip, -45, 0.9), #右下
+        ( 0,+5): pg.transform.rotozoom(kk_img_flip, -90, 0.9), #下
+        (-5,-5): pg.transform.rotozoom(kk_img, -45, 0.9), #左下
+        (-5, 0): pg.transform.rotozoom(kk_img, 0, 0.9), #左
+        (-5,+5): pg.transform.rotozoom(kk_img, 45, 0.9), #左上
     }
     return kk_dict
 
