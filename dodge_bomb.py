@@ -8,6 +8,20 @@ WIDTH, HEIGHT = 1100, 650
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
+def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
+    """
+    引数：こうかとんRectか、爆弾Rect
+    戻り値：タプル（横方向結果判定, 縦方向結果判定）
+    画面内ならTrue, 画面外ならFalse
+    """
+    yoko, tate = True, True
+    if rct.left < 0 or WIDTH < rct.right:
+        yoko = False
+    if rct.top < 0 or HEIGHT < rct.bottom:
+        tate = False
+    return yoko, tate
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -38,6 +52,9 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+        if kk_rct.colliderect(bb_rct):
+            print("ゲームオーバー")
+            return
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
@@ -62,19 +79,6 @@ def main():
         tmr += 1
         clock.tick(50)
 
-
-def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
-    """
-    引数：こうかとんRectか、爆弾Rect
-    戻り値：タプル（横方向結果判定, 縦方向結果判定）
-    画面内ならTrue, 画面外ならFalse
-    """
-    yoko, tate = True, True
-    if rct.left < 0 or WIDTH < rct.right:
-        yoko = False
-    if rct.top < 0 or HEIGHT < rct.bottom:
-        tate = False
-    return yoko, tate
 
 if __name__ == "__main__":
     pg.init()
