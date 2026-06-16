@@ -167,9 +167,9 @@ def main():
         kk_img = kk_imgs[tuple(sum_mv)]
         screen.blit(kk_img, kk_rct)
 
-        avx = vx*bb_accs[min(tmr//500, 9)]
-        avy = vy*bb_accs[min(tmr//500, 9)]
-        bb_img = bb_imgs[min(tmr//500, 9)]
+        avx = vx * bb_accs[min(tmr // 500, 9)]
+        avy = vy * bb_accs[min(tmr // 500, 9)]
+        bb_img = bb_imgs[min(tmr // 500, 9)]
         bb_rct.width = bb_img.get_rect().width
         bb_rct.height = bb_img.get_rect().height
         bb_rct.move_ip([avx, avy])
